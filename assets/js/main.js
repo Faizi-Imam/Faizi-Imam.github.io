@@ -55,6 +55,7 @@ const contactForm=document.getElementById('contact-form'),
       contactEmail=document.getElementById('contact-email'),
       contactProject=document.getElementById('contact-project'),
       contactMessage=document.getElementById('contact-message')
+console.log(contactForm,contactEmail,contactName,contactMessage,contactProject)
 const sendEmail=(e)=>{
 e.preventDefault()
 // Check if the field has a value
@@ -68,7 +69,24 @@ if(contactName.value===''|| contactEmail.value=='' || contactProject.value==='')
 }
 else{
     // serviceID-templateID-#form-publicKey
-    emailjs.sendForm('','','','')
+    emailjs.sendForm('service_x5vvgcc','template_kcyw96j','#contact-form','SJl8DU5vf4q5ebt3C')
+    .then(() =>{
+    // Show message and color
+    contactMessage.classList.add('color-blue')
+    contactMessage.textContent='Message sent '
+
+    // Remove message after 3 seconds
+      setTimeout(() =>{
+        contactMessage.textContent = ''
+      }, 3000)
+    },(error) =>{
+      alert('OOPS! SOMETHING HAS FAILED...',  error)
+})
+  // To clear the input field
+  contactName.value=''
+  contactEmail.value=''
+  contactName.value=''
+  contactProject.value=''
 }
 }
 contactForm.addEventListener('submit',sendEmail)
@@ -134,3 +152,26 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+
+/*=============== CHANGE BACKGROUND HEADER ===============*/
+const scrollHeader = () =>{
+  const header = document.getElementById('header')
+  // When the scroll is greater than 50 viewport height, add the scroll-header class to the header tag
+  this.scrollY >= 50 ? header.classList.add('bg-header') 
+                     : header.classList.remove('bg-header')
+}
+window.addEventListener('scroll', scrollHeader)
+// SCROLL REVEAL ANIMATION
+const sr=ScrollReveal({
+  origin:'top',
+  distance:'60px',
+  duration:2500,
+  delay:400,
+  // reset:true/*Animations repeat*/
+})
+
+sr.reveal('.home__data, .projects__container, .testimonial__container, .footer__container')
+sr.reveal('.home__info div', {delay:600, origin: 'bottom', interval: 100})
+sr.reveal('.skills__content:nth-child(1), .contact__content:nth-child(1)', {origin: 'left'})
+sr.reveal('.skills__content:nth-child(2), .contact__content:nth-child(2)', {origin: 'right'})
+sr.reveal('.qualification__content, .services__card', {interval: 100})
